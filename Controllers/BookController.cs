@@ -6,11 +6,11 @@ namespace Library_ManagementAPI.Controllers
     [ApiController]
     [Route("api/[controller]")]
 
-    public class BookContoller : Controller
+    public class BookController : Controller
     {
         private readonly IBookService _bookService;
     
-        public BookContoller(IBookService bookService)
+        public BookController(IBookService bookService)
         {
             _bookService = bookService;
         }
@@ -33,6 +33,15 @@ namespace Library_ManagementAPI.Controllers
             if (result == null)
                 return NotFound("Book not found.");
 
+            return Ok(result);
+
+        }
+        [HttpGet("id")]
+        public async Task<ActionResult<List<BooksModels>>> GetBooksGenres(string bookgenres = "")
+        {
+            var result = await _bookService.GetBooksGenres(bookgenres);
+            if (result == null)
+                return NotFound("No book with this genre");
             return Ok(result);
 
         }

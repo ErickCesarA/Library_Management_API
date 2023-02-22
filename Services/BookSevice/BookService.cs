@@ -7,10 +7,7 @@ namespace Library_ManagementAPI.Services.BookSevice
     {
         private static List<BooksModels> books = new List<BooksModels>
         {
-            new BooksModels
-            { 
-
-            }
+            new BooksModels {}
         };
         private readonly DataContext _context;
         public BookService(DataContext context)
@@ -23,7 +20,7 @@ namespace Library_ManagementAPI.Services.BookSevice
             return books;
         }
         public async Task<List<BooksModels>?> GetBooks(string booktitle, string booksubtitle,
-                                                            string bookautor, string bookgenres ,
+                                                            string bookautor, string bookgenres,
                                                             string bookpublisher, string bookedition)
         {
             var books = await _context.BooksPropety.Where(bt => bt.bookTitle.Contains(booktitle))
@@ -35,6 +32,13 @@ namespace Library_ManagementAPI.Services.BookSevice
             if (books == null)
                 return null;
 
+            return books;
+        }
+        public async Task<List<BooksModels>?> GetBooksGenres(string bookgenres)
+        { 
+            var books = await _context.BooksPropety.Where(bg => bg.bookGenres.Contains(bookgenres)).ToListAsync();
+                if (books ==null) 
+                    return null;   
             return books;
         }
         public async Task<List<BooksModels>> AddBooks(BooksModels book)

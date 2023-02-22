@@ -15,6 +15,11 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<IBookService, BookService>();
 builder.Services.AddScoped<IGenresService, GenresService>();
 builder.Services.AddDbContext<DataContext>();
+builder.Services.AddCors(options => options.AddPolicy(name: "BookOrigins",
+    policy =>
+    {
+        policy.WithOrigins("http://localhost:4200").AllowAnyMethod().AllowAnyHeader();
+    }));
 
 var app = builder.Build();
 
@@ -24,6 +29,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+app.UseCors("BookOrigins");
 
 app.UseHttpsRedirection();
 
